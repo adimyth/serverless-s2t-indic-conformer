@@ -27,11 +27,27 @@ source .venv/bin/activate
 
 pip install -r builder/requirements.txt
 ```
-3. Run the project. Refer the [docs](https://docs.runpod.io/serverless/workers/development/overview) for more options. This will start the FastAPI server on the specified host at port 8000.
+3. Install nemo
+```bash
+git clone https://github.com/AI4Bharat/NeMo.git -b nemo-v2
+pip install packaging huggingface_hub==0.23.2
+cd NeMo && bash reinstall.sh
+cd ..
+```
+4. Make directory for storing the model
+```bash
+sudo mkdir -p /temp/models/asr
+
+sudo chmod -R 777 /temp/models/asr
+
+wget https://objectstore.e2enetworks.net/indic-asr-public/indicConformer/ai4b_indicConformer_hi.nemo -O /temp/models/asr/hi.nemo
+```
+> Modify the `src/handler.py` file to remove the other languages from the list & update the model prefix path to `/temp/models/asr/` instead
+1. Run the project. This will start the FastAPI server on the specified host at port 8000.
 ```bash
 python3 src/handler.py --rp_serve_api --rp_api_host 0.0.0.0 --rp_log_level DEBUG
 ```
-4. Test the project
+1. Test the project
 ```bash
 curl --location 'http://0.0.0.0:8000/runsync' \
 --header 'accept: application/json' \

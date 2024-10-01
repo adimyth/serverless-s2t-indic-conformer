@@ -2,7 +2,7 @@
 FROM runpod/base:0.6.2-cuda12.1.0
 
 # Download ASR Models
-RUN mkdir -p /usr/ai-inference/models/asr
+RUN mkdir -p /usr/models/asr
 # Hindi
 RUN wget https://objectstore.e2enetworks.net/indic-asr-public/indicConformer/ai4b_indicConformer_hi.nemo -O /usr/models/asr/hi.nemo
 # Kannada

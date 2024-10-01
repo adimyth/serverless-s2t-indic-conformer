@@ -43,11 +43,11 @@ sudo chmod -R 777 /temp/models/asr
 wget https://objectstore.e2enetworks.net/indic-asr-public/indicConformer/ai4b_indicConformer_hi.nemo -O /temp/models/asr/hi.nemo
 ```
 > Modify the `src/handler.py` file to remove the other languages from the list & update the model prefix path to `/temp/models/asr/` instead
-1. Run the project. This will start the FastAPI server on the specified host at port 8000.
+5. Run the project. This will start the FastAPI server on the specified host at port 8000.
 ```bash
 python3 src/handler.py --rp_serve_api --rp_api_host 0.0.0.0 --rp_log_level DEBUG
 ```
-1. Test the project
+6. Test the project
 ```bash
 curl --location 'http://0.0.0.0:8000/runsync' \
 --header 'accept: application/json' \

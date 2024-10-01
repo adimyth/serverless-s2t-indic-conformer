@@ -1,6 +1,9 @@
 # Base Image
 FROM runpod/base:0.6.2-cuda12.1.0
 
+# Set working directory
+WORKDIR /workspace
+
 # Download ASR Models
 RUN mkdir -p /usr/models/asr
 # Hindi
@@ -25,7 +28,7 @@ RUN wget https://objectstore.e2enetworks.net/indic-asr-public/indicConformer/ai4
 # Install ASR dependencies
 RUN git clone https://github.com/AI4Bharat/NeMo.git -b nemo-v2
 RUN pip install packaging huggingface_hub==0.23.2
-RUN cd NeMo && bash reinstall.sh
+RUN cd NeMo && bash reinstall.sh && cd ..
 
 # Install necessary packages
 COPY builder/requirements.txt /requirements.txt
@@ -35,5 +38,8 @@ RUN python3.10 -m pip install --upgrade pip && \
 
 # Add src files
 ADD src .
+
+# Set PYTHONPATH
+ENV PYTHONPATH="${PYTHONPATH}:/workspace/NeMo"
 
 CMD python3.10 -u /handler.py

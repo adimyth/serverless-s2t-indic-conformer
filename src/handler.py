@@ -15,7 +15,7 @@ load_dotenv()
 def get_model(language):
     device = "cuda"
     model = nemo_asr.models.EncDecCTCModel.restore_from(
-        restore_path=f"/usr/models/asr/{language}.nemo"
+        restore_path=f"/usr/ai-inference/models/asr/{language}.nemo"
     )
     model.freeze()
     model = model.to(device)
@@ -25,7 +25,7 @@ def get_model(language):
 
 # Load model outside the handler to avoid loading it every time
 models = {}
-for lang in ["hi", "kn", "ta", "te", "mr", "ml", "bn", "gu"]:
+for lang in ["hi", "kn", "ta", "te", "mr", "ml", "bn", "gu", "pa"]:
     models[lang] = get_model(lang)
     logger.info(f"Model for {lang} loaded successfully")
 logger.info("Speech to Text models loaded successfully")
@@ -58,7 +58,7 @@ async def handler(event):
         return {"error": "audioURL is required"}
     if not language:
         return {"error": "language is required"}
-    if language not in ["hi", "kn", "ta", "te", "mr", "ml", "bn", "gu"]:
+    if language not in ["hi", "kn", "ta", "te", "mr", "ml", "bn", "gu", "pa"]:
         return {"error": "language not supported"}
 
     # Download the audio file & get the sample rate
